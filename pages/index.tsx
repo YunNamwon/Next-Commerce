@@ -1,11 +1,24 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
+import styles from '/styles/Home.module.css'
+import { useRef } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleClick = () => {
+    if (inputRef.current == null || inputRef.current.value === '') {
+      alert('name을 넣어주세요.')
+      return
+    }
+    fetch(`api/add-item?name=${inputRef.current.value}`)
+      .then((res) => res.json())
+      .then((data) => alert(data.message))
+  }
+
   return (
     <>
       <Head>
@@ -14,12 +27,17 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main className={styles.main}>
         <div className={styles.description}>
           <p>
             Get started by editing&nbsp;
             <code className={styles.code}>pages/index.tsx</code>
           </p>
+
+          <input ref={inputRef} type="text" placeholder="name" />
+          <button onClick={handleClick}>Add Jacket</button>
+
           <div>
             <a
               href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
