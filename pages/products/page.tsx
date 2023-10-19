@@ -79,7 +79,7 @@ export default function Products() {
           ))}
         </div>
       )}
-      <div className="w-full flex mt-5">
+      <div className="w-full flex mt-5 pb-5">
         <Pagination
           className="m-auto"
           value={activePage}
@@ -90,4 +90,3 @@ export default function Products() {
     </div>
   )
 }
-
