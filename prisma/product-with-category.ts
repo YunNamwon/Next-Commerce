@@ -1,5 +1,7 @@
 import { PrismaClient, Prisma } from '@prisma/client'
 
+// yarn ts-node prisma/product-with-category.ts << 데이터 회복 
+
 const prisma = new PrismaClient()
 
 const getRandom = (max: number, min: number) => {
@@ -430,7 +432,23 @@ const productData: Prisma.productsCreateInput[] = [
 ]
 
 async function main() {
-  await prisma.products.deleteMany({})
+  const CATEGORIES = ['SNEAKERS', 'T-SHIRT', 'PANTS', 'CAP', 'HOODIE']
+  CATEGORIES.forEach(async (c, i) => {
+    const product = await prisma.categories.upsert({
+      where: {
+        id: i + 1,
+      },
+      update: {
+        name: c,
+      },
+      create: {
+        name: c,
+      },
+    })
+    console.log(`Upsert category id: ${product.id}`)
+  })
+
+  await prisma.products.deleteMany({}) // 모두 삭제했다 다시 생성
 
   for (const p of productData) {
     const product = await prisma.products.create({
