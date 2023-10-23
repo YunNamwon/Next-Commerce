@@ -1,7 +1,8 @@
 import '@/styles/globals.css'
 import { MantineProvider } from '@mantine/core';
 import type { AppProps } from 'next/app'
-import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
+import { QueryClientProvider, QueryClient, useQuery } from '@tanstack/react-query';
+
 
 
 export default function App({ Component, pageProps }: AppProps) {

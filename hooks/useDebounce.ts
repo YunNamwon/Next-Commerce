@@ -16,4 +16,4 @@ const useDebounce = <T = any>(value: T, delay = 600) => {
   return debouncedValue
 }
 
-export default useDebounce
+export default useDebounce // 랜더링 최적화 
