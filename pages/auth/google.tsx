@@ -1,7 +1,10 @@
 import { GoogleLogin } from '@react-oauth/google'
+import { GoogleOAuthProvider } from '@react-oauth/google'
+import { CLIENT_ID } from '@/constants/googleAuth';
 
 export default function Google() {
   return (
+    <GoogleOAuthProvider clientId= {CLIENT_ID}>
     <div style={{ display: 'flex' }}>
       <GoogleLogin
         onSuccess={(credentialResponse) => {
@@ -14,5 +17,6 @@ export default function Google() {
         }}
       />
     </div>
+    </GoogleOAuthProvider>
   )
 }

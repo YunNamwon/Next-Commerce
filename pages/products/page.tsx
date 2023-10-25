@@ -7,9 +7,13 @@ import { CATEGORY_MAP, FILTERS, TAKE } from '@/constants/products';
 import useDebounce from '@/hooks/useDebounce';
 import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { IconSearch } from '@tabler/icons-react'
+
 
 
 export default function Products() {
+  const router = useRouter()
   const { data: session } = useSession()
   const [activePage, setPage] = useState(1)
   const [total, setTotal] = useState(0) ///////////
@@ -97,6 +101,7 @@ export default function Products() {
         {session && <p className='pb-4'>안녕하세요. {session.user?.name}님</p>}
       <div className="mb-4">
         <Input
+          leftSection = {<IconSearch/>}
           placeholder="Search"
           value={keyword}
           onChange={handleChange}
@@ -124,7 +129,7 @@ export default function Products() {
       {products && (
         <div className="grid grid-cols-3 gap-5">
           {products.map((item) => (
-            <div key={item.id} style={{ maxWidth: 310 }}>
+            <div key={item.id} style={{ maxWidth: 310 }} onClick={()=> router.push(`/products/${item.id}`)}>
               <Image
                 className="rounded"
                 alt={item.name}
