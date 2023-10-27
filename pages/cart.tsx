@@ -20,7 +20,7 @@ interface CartItem {
 export default function Cart() {
   const router = useRouter()
   const [data, setData] = useState<CartItem[]>([])
-  
+
   const dilveryAmount = 5000
   const discountAmount = 0
 
@@ -175,7 +175,7 @@ const Item = (props: CartItem) => {
   }, [quantity, props.price])
 
   const handleUpdate = () => {
-    //TODO: 장바구니에서 수정 기능 구현
+    //TODO: 장바구니 수량 초기화 기능 
     const typeValue = Number(value);
     if (!isNaN(typeValue) && typeValue > 1) {
       setValue(1)
