@@ -28,13 +28,13 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  const session = await unstable_getServerSession(req, res, authOptions)
+  const session = await unstable_getServerSession(req, res, authOptions);
   if (session == null) {
     res.status(200).json({ items: [], message: 'no Session' })
     return
   } 
   try {
-    const wishlist = await getWishlist(String(session.id)) // session.id < 안됨
+    const wishlist = await getWishlist(String(session.id))
     res.status(200).json({ items: wishlist, message: 'Success' })
   } catch (error) {
     res.status(400).json({ message: 'Failed' })

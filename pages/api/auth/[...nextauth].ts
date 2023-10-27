@@ -4,10 +4,10 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { PrismaClient } from '@prisma/client'
 import { CLIENT_ID, CLIENT_SECRET } from '@/constants/googleAuth'
 
-
 const prisma = new PrismaClient()
 
-export const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions  = {
+  
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -15,13 +15,13 @@ export const authOptions: NextAuthOptions = {
       clientSecret: CLIENT_SECRET,
     }),
   ],
-  session: {
+  session : {
     strategy: 'database',
     maxAge: 1 * 24 * 60 * 60,
   },
   callbacks: {
-    session: async ({ session, user }) => {
-       session.id = user.id
+    session : async ({ session, user }) => {
+       session.id  = user.id 
       return Promise.resolve(session)
     },
   },
