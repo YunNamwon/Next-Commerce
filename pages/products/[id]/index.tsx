@@ -1,5 +1,5 @@
 import CustomEditor from '@/components/Editor'
-import { products } from '@prisma/client'
+import { Cart, products } from '@prisma/client'
 import { convertFromRaw, EditorState } from 'draft-js'
 import { format } from 'date-fns'
 import { GetServerSidePropsContext } from 'next'
@@ -12,6 +12,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { IconHeart, IconHeartbeat, IconShoppingCart } from '@tabler/icons-react'
 import { Button, NumberInput } from '@mantine/core'
 import { useSession } from 'next-auth/react'
+import { CART_QUERY_KEY } from '@/pages/cart'
 // import CountControl from '@/components/CountControl'
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -34,7 +35,7 @@ export default function Products(props: {
 }) {
   const [index, setIndex] = useState(0)
   const { data: session } = useSession()
-  const [value, setValue] = useState<string | number>(0);
+  const [value, setValue] = useState<any>(0);
 
   const router = useRouter()
   const queryClient = useQueryClient()
@@ -89,6 +90,32 @@ export default function Products(props: {
       },
     }
   )
+
+  const { mutate: addCart } = useMutation<
+    unknown,
+    unknown,
+    Omit<Cart, 'id' | 'userId'>,
+    any
+  >(
+    (item) =>
+      fetch('/api/add-cart', {
+        method: 'POST',
+        body: JSON.stringify({ item }),
+      })
+        .then((data) => data.json())
+        .then((res) => res.items),
+        {
+          onMutate: () => {
+            queryClient.invalidateQueries([CART_QUERY_KEY])
+          },
+          onSuccess: () => {
+            router.push('/cart')
+          },
+        }
+  )
+
+  const product = props.product
+
   const validate = (type: 'cart' | 'order') => {
     if(value == 0) {
       alert('최소수량을 입력하세요.')  
@@ -96,10 +123,16 @@ export default function Products(props: {
     }
   
     // TODO: 장바구니에 등록하는 기능 추가
+    if (type == 'cart')
+    addCart({
+      productId: product.id,
+      quantity: value,
+      amount: product.price * value,
+    })
     router.push('/cart')
   }
   
-  const product = props.product
+
 
   const isWished =
     wishlist != null && productId != null

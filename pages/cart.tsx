@@ -1,59 +1,43 @@
 import styled from '@emotion/styled'
 import { Button, NumberInput } from '@mantine/core'
-import { products } from '@prisma/client'
+import { products, Cart} from '@prisma/client'
 import { IconRefresh, IconX } from '@tabler/icons-react'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { CATEGORY_MAP } from '@/constants/products'
 import Image from 'next/image'
 import { Router, useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 
-interface CartItem {
+interface CartItem extends Cart {
   name: string
-  productId: number
   price: number
-  quantity: number
-  amount: number
   image_url: string
 }
 
-export default function Cart() {
-  const router = useRouter()
-  const [data, setData] = useState<CartItem[]>([])
+export const CART_QUERY_KEY = '/api/get-cart'
 
-  const dilveryAmount = 5000
+export default function CartPage() {
+  const router = useRouter()
+
+  const { data } = useQuery<{ items: CartItem[] }, unknown, CartItem[]>(
+    [CART_QUERY_KEY],
+    () =>
+      fetch(CART_QUERY_KEY)
+        .then((res) => res.json())
+        .then((data) => data.items)
+  )
+
+  const dilveryAmount = data && data.length > 0 ? 5000 : 0
   const discountAmount = 0
 
   const amount = useMemo(() => {
+    if (data == null) {
+      return 0
+    }
     return data
       .map((item) => item.amount)
       .reduce((prev, curr) => prev + curr, 0)
   }, [data])
-
-  useEffect(() => {
-    const mockData = [
-      {
-        name: '멋드러진 신발',
-        productId: 109,
-        price: 20000,
-        quantity: 2,
-        amount: 40000,
-        image_url:
-          'https://cdn.shopify.com/s/files/1/0282/5850/products/footwear_nike_air-more-uptempo-96_DH8011-100.view_1_720x.jpg',
-      },
-      {
-        name: '느낌있는 후드',
-        productId: 143,
-        price: 102302,
-        quantity: 1,
-        amount: 102302,
-        image_url:
-          'https://cdn.shopify.com/s/files/1/0282/5850/products/apparel_tops_undefeated_stencil-logo-pullover-hood_20078.color_black.view_1_720x.jpg',
-      },
-    ]
-
-    setData(mockData)
-  }, [])
 
   const { data: products } = useQuery<
     { items: products[] },
@@ -74,13 +58,17 @@ export default function Cart() {
 
   return (
     <div>
-      <span className="text-2xl mb-3">Cart ({data.length})</span>
+      <span className="text-2xl mb-3">Cart ({data ? data.length : 0})</span>
       <div className="flex">
         <div className="flex flex-col p-4 space-y-4 flex-1">
-          {data?.length > 0 ? (
-            data.map((item, idx) => <Item key={idx} {...item} />)
+          {data ? (
+            data.length > 0 ? (
+              data.map((item, idx) => <Item key={idx} {...item} />)
+            ) : (
+              <div>장바구니에 아무것도 없습니다.</div>
+            )
           ) : (
-            <div>장바구니에 아무것도 없습니다.</div>
+            <div>불러오는 중...</div>
           )}
         </div>
         <div className="px-4">
@@ -164,9 +152,10 @@ export default function Cart() {
 
 const Item = (props: CartItem) => {
   const router = useRouter()
+  const queryClient = useQueryClient()
   const [quantity, setQuantity] = useState<number | undefined>(props.quantity)
   const [amount, setAmount] = useState<number>(props.quantity)
-  const [value, setValue] = useState<string | number>(1);
+  const [value, setValue] = useState<any>(quantity);
 
   useEffect(() => {
     if (quantity != null) {
@@ -174,16 +163,81 @@ const Item = (props: CartItem) => {
     }
   }, [quantity, props.price])
 
-  const handleUpdate = () => {
-    //TODO: 장바구니 수량 초기화 기능 
-    const typeValue = Number(value);
-    if (!isNaN(typeValue) && typeValue > 1) {
-      setValue(1)
+  const { mutate: updateCart } = useMutation<unknown, unknown, Cart, any>(
+    (item) =>
+      fetch('/api/update-cart', {
+        method: 'POST',
+        body: JSON.stringify({ item }),
+      })
+        .then((data) => data.json())
+        .then((res) => res.items),
+    {
+      onMutate: async (item) => {
+        await queryClient.cancelQueries([CART_QUERY_KEY])
+
+        // Snapshot the previous value
+        const previous = queryClient.getQueryData([CART_QUERY_KEY])
+
+        // Optimistically update to the new value
+        queryClient.setQueryData<Cart[] | undefined>([CART_QUERY_KEY], (old) => {
+          const updatedData = old ? old.filter((c) => c.id !== item.id).concat(item) : undefined;
+          return updatedData;
+        });
+
+        // Return a context object with the snapshotted value
+        return { previous }
+      },
+      onError: (error, _, context) => {
+        queryClient.setQueryData([CART_QUERY_KEY], context.previous)
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries([CART_QUERY_KEY])
+      },
     }
+  )
+
+  const { mutate: deleteCart } = useMutation<unknown, unknown, number, any>(
+    (id) =>
+      fetch('/api/delete-cart', {
+        method: 'POST',
+        body: JSON.stringify({ id }),
+      })
+        .then((data) => data.json())
+        .then((res) => res.items),
+    {
+      onMutate: async (id) => {
+        await queryClient.cancelQueries([CART_QUERY_KEY])
+
+        // Snapshot the previous value
+        const previous = queryClient.getQueryData([CART_QUERY_KEY])
+
+        // Optimistically update to the new value
+        queryClient.setQueryData<Cart[]>([CART_QUERY_KEY], (old) => {
+          return old?.filter((c) => c.id !== id) || [];
+        });
+
+        // Return a context object with the snapshotted value
+        return { previous }
+      },
+      onError: (error, _, context) => {
+        queryClient.setQueryData([CART_QUERY_KEY], context.previous)
+      },
+      onSuccess: () => {
+        queryClient.invalidateQueries([CART_QUERY_KEY])
+      },
+    }
+  )
+
+  const handleUpdate = () => {
+    if (value == 0) {
+      alert('최소 수량을 선택하세요.')
+      return
+    }
+    updateCart({ ...props, quantity: value, amount: props.price * value })
   }
 
-  const handleDelete = () => {
-    //TODO: 장바구니에서 삭제 기능 구현
+  const handleDelete = async () => {
+    await deleteCart(props.id)
     alert(`장바구니에서 ${props.name} 삭제`)
   }
 
@@ -202,7 +256,7 @@ const Item = (props: CartItem) => {
           가격: {props.price.toLocaleString('ko-kr')} 원
         </span>
         <div className="flex items-center space-x-4">
-          <NumberInput value={value} onChange={setValue} min={1} max={20} />
+          <NumberInput value={value} onChange={setValue} min={0} max={20} />
           <IconRefresh onClick={handleUpdate} />
         </div>
       </div>
