@@ -122,7 +122,7 @@ export default function Products(props: {
       return 
     }
   
-    // TODO: 장바구니에 등록하는 기능 추가
+    // 장바구니에 등록하는 기능 
     if (type == 'cart')
     addCart({
       productId: product.id,
