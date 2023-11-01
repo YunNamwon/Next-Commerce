@@ -1,5 +1,5 @@
 import CustomEditor from '@/components/Editor'
-import { Cart, products } from '@prisma/client'
+import { Cart, OrderItem, products } from '@prisma/client'
 import { convertFromRaw, EditorState } from 'draft-js'
 import { format } from 'date-fns'
 import { GetServerSidePropsContext } from 'next'
@@ -13,6 +13,8 @@ import { IconHeart, IconHeartbeat, IconShoppingCart } from '@tabler/icons-react'
 import { Button, NumberInput } from '@mantine/core'
 import { useSession } from 'next-auth/react'
 import { CART_QUERY_KEY } from '@/pages/cart'
+import { ORDER_QUERY_KEY } from '@/pages/my'
+
 // import CountControl from '@/components/CountControl'
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -114,6 +116,29 @@ export default function Products(props: {
         }
   )
 
+  const { mutate: addOrder } = useMutation<
+    unknown,
+    unknown,
+    Omit<OrderItem, 'id'>[],
+    any
+  >(
+    (items) =>
+      fetch('/api/add-order', {
+        method: 'POST',
+        body: JSON.stringify({ items }),
+      })
+        .then((data) => data.json())
+        .then((res) => res.items),
+    {
+      onMutate: () => {
+        queryClient.invalidateQueries([ORDER_QUERY_KEY])
+      },
+      onSuccess: () => {
+        router.push('/my')
+      },
+    }
+  )
+
   const product = props.product
 
   const validate = (type: 'cart' | 'order') => {
@@ -130,9 +155,18 @@ export default function Products(props: {
       amount: product.price * value,
     })
     router.push('/cart')
-  }
-  
 
+    if (type === 'order') {
+      addOrder([
+        {
+          productId: product.id,
+          quantity: value,
+          price: product.price,
+          amount: product.price * value,
+        },
+      ])
+    }
+  }
 
   const isWished =
     wishlist != null && productId != null
@@ -234,7 +268,26 @@ export default function Products(props: {
               >
                 찜하기
               </Button>
+
               </div>
+              <Button
+              style={{ backgroundColor: 'black' }}
+              radius="xl"
+              size="md"
+              styles={{
+                root: { paddingRight: 14, height: 48 },
+              }}
+              onClick={() => {
+                if (session == null) {
+                  alert('로그인이 필요해요')
+                  router.push('/auth/login')
+                  return
+                }
+                validate('order')
+              }}
+            >
+              구매하기
+            </Button>
 
             <div className="text-sm text-zinc-300">
               등록:{format(new Date(product.createdAt), 'yyyy년 M월 d일')}
