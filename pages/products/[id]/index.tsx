@@ -14,8 +14,7 @@ import { Button, NumberInput } from '@mantine/core'
 import { useSession } from 'next-auth/react'
 import { CART_QUERY_KEY } from '@/pages/cart'
 import { ORDER_QUERY_KEY } from '@/pages/my'
-
-// import CountControl from '@/components/CountControl'
+import CommentItem from '@/components/CommentItem'
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const product = await fetch(
@@ -23,17 +22,33 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   )
     .then((res) => res.json())
     .then((data) => data.items)
+
+  const comments = await fetch(
+    `http://localhost:3000/api/get-comments?productId=${context.params?.id}`
+  )
+    .then((res) => res.json())
+    .then((data) => data.items)
+
   return {
     props: {
       product: { ...product, images: [product.image_url, product.image_url] },
+      comments: comments,
     },
   }
 }
 
 const WISHLIST_QUERY_KEY = '/api/get-wishlist'
 
+export interface CommentItemType extends Comment, OrderItem{
+  images: any
+  contents: string
+  updatedAt: string | number | Date
+  rate: number;
+}
+
 export default function Products(props: {
   product: products & { images: string[] }
+  comments: CommentItemType[]
 }) {
   const [index, setIndex] = useState(0)
   const { data: session } = useSession()
@@ -176,8 +191,8 @@ export default function Products(props: {
   return (
     <>
       {product != null && productId != null ? (
-        <div className="flex flex-row">
-          <div style={{ maxWidth: 700, marginRight: 52 }}>
+        <div className="flex flex-row ">
+          <div style={{ maxWidth: 700, marginRight: 100, padding:50 }}>
             <Carousel
               animation="fade"
               withoutControls
@@ -206,6 +221,13 @@ export default function Products(props: {
             {editorState != null && (
               <CustomEditor editorState={editorState} readOnly />
             )}
+             <div>
+              <p className="text-2xl font-semibold mb-3 ">후기</p>
+              {props.comments &&
+                props.comments.map((comment, idx) => (
+                  <CommentItem key={idx} item={comment} />
+                ))}
+            </div>
           </div>
           <div style={{ maxWidth: 700 }} className="flex flex-col space-y-6">
             <div className="text-lg text-zinc-400">
