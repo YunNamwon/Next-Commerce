@@ -1,5 +1,0 @@
-{
-  "builds": [
-    { "use": "@vercel/node", "config": { "maxDuration": 300, "cmd": "prisma generate" } }
-  ]
-}
