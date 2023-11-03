@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 import { IconSearch } from '@tabler/icons-react'
 
 
-
 export default function Home() {
   const router = useRouter()
   const { data: session } = useSession()
