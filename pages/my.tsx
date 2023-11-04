@@ -1,14 +1,15 @@
 // import { CountControl } from '@components/CountControl'
 import styled from '@emotion/styled'
-import { Badge, Button, NumberInput } from '@mantine/core'
+import { Badge} from '@mantine/core'
 import { Cart, OrderItem, Orders, products } from '@prisma/client'
 import { IconRefresh, IconX } from '@tabler/icons-react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { CATEGORY_MAP } from '@/constants/products'
 import { format } from 'date-fns'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
+import InputNumber from '@/components/InputNumber'
+import Button from '@/components/Button'
 
 interface OrderItemDetail extends OrderItem {
   name: string
@@ -171,7 +172,7 @@ const DetailItem = (props: OrderDetail) => {
   )
 }
 
-const Item = (props: OrderItemDetail & {status: number}) => {
+const Item = (props: OrderItemDetail & { status: number }) => {
   const router = useRouter()
   const [value, setValue] = useState<any>(props.quantity)
   const [amount, setAmount] = useState<number>(props.quantity)
@@ -200,11 +201,14 @@ const Item = (props: OrderItemDetail & {status: number}) => {
           가격: {props.price.toLocaleString('ko-kr')} 원
         </span>
         <div className="flex items-center space-x-4">
-          <NumberInput value={value} onChange={setValue} max={20} />
+          <InputNumber
+            value={typeof value === 'number' ? value : 0}
+            onChange={(e) => setValue(parseInt(e.target.value) || 0)}
+          />
         </div>
       </div>
       <div className="flex flex-col ml-auto space-x-4">
-      {props.status === 5 && (
+        {props.status === 5 && (
           <Button
             style={{
               backgroundColor: 'black',

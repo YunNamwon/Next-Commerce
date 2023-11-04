@@ -1,6 +1,5 @@
 import styled from '@emotion/styled'
-import { Button, NumberInput } from '@mantine/core'
-import { products, Cart, OrderItem} from '@prisma/client'
+import { products, Cart, OrderItem } from '@prisma/client'
 import { IconRefresh, IconX } from '@tabler/icons-react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { CATEGORY_MAP } from '@/constants/products'
@@ -8,6 +7,8 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { ORDER_QUERY_KEY } from './my'
+import Button from '@/components/Button'
+import InputNumber from '@/components/InputNumber'
 
 interface CartItem extends Cart {
   name: string
@@ -91,7 +92,6 @@ export default function CartPage() {
     alert(`장바구니에 담긴 것들 ${JSON.stringify(data)} 주문`)
   }
 
-
   return (
     <div>
       <span className="text-2xl mb-3">Cart ({data ? data.length : 0})</span>
@@ -135,17 +135,7 @@ export default function CartPage() {
               </span>
             </Row>
 
-            <Button
-              style={{ backgroundColor: 'black' }}
-              radius="xl"
-              size="md"
-              styles={{
-                root: { height: 48 },
-              }}
-              onClick={handleOrder}
-            >
-              구매하기
-            </Button>
+            <Button onClick={handleOrder}>구매하기</Button>
           </div>
         </div>
       </div>
@@ -191,7 +181,7 @@ const Item = (props: CartItem) => {
   const queryClient = useQueryClient()
   const [quantity, setQuantity] = useState<number | undefined>(props.quantity)
   const [amount, setAmount] = useState<number>(props.quantity)
-  const [value, setValue] = useState<any>(quantity);
+  const [value, setValue] = useState<any>(quantity)
 
   useEffect(() => {
     if (quantity != null) {
@@ -215,10 +205,15 @@ const Item = (props: CartItem) => {
         const previous = queryClient.getQueryData([CART_QUERY_KEY])
 
         // Optimistically update to the new value
-        queryClient.setQueryData<Cart[] | undefined>([CART_QUERY_KEY], (old) => {
-          const updatedData = old ? old.filter((c) => c.id !== item.id).concat(item) : undefined;
-          return updatedData;
-        });
+        queryClient.setQueryData<Cart[] | undefined>(
+          [CART_QUERY_KEY],
+          (old) => {
+            const updatedData = old
+              ? old.filter((c) => c.id !== item.id).concat(item)
+              : undefined
+            return updatedData
+          }
+        )
 
         // Return a context object with the snapshotted value
         return { previous }
@@ -249,8 +244,8 @@ const Item = (props: CartItem) => {
 
         // Optimistically update to the new value
         queryClient.setQueryData<Cart[]>([CART_QUERY_KEY], (old) => {
-          return old?.filter((c) => c.id !== id) || [];
-        });
+          return old?.filter((c) => c.id !== id) || []
+        })
 
         // Return a context object with the snapshotted value
         return { previous }
@@ -292,7 +287,10 @@ const Item = (props: CartItem) => {
           가격: {props.price.toLocaleString('ko-kr')} 원
         </span>
         <div className="flex items-center space-x-4">
-          <NumberInput value={value} onChange={setValue} min={0} max={20} />
+          <InputNumber
+            value={typeof value === 'number' ? value : 0}
+            onChange={(e) => setValue(parseInt(e.target.value) || 0)}
+          />
           <IconRefresh onClick={handleUpdate} />
         </div>
       </div>

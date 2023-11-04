@@ -9,13 +9,13 @@ import Carousel from 'nuka-carousel'
 import { useState } from 'react'
 import { CATEGORY_MAP } from '@/constants/products'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { IconHeart, IconHeartbeat, IconShoppingCart } from '@tabler/icons-react'
-import { Button, NumberInput } from '@mantine/core'
+import { IconHeart, IconShoppingCart } from '@tabler/icons-react'
 import { useSession } from 'next-auth/react'
 import { CART_QUERY_KEY } from '@/pages/cart'
 import { ORDER_QUERY_KEY } from '@/pages/my'
 import CommentItem from '@/components/CommentItem'
-
+import Button from '@/components/Button'
+import InputNumber from '@/components/InputNumber'
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const product = await fetch(
@@ -40,11 +40,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 const WISHLIST_QUERY_KEY = '/api/get-wishlist'
 
-export interface CommentItemType extends Comment, OrderItem{
+export interface CommentItemType extends Comment, OrderItem {
   images: any
   contents: string
   updatedAt: string | number | Date
-  rate: number;
+  rate: number
 }
 
 export default function Products(props: {
@@ -53,7 +53,7 @@ export default function Products(props: {
 }) {
   const [index, setIndex] = useState(0)
   const { data: session } = useSession()
-  const [value, setValue] = useState<any>(0);
+  const [value, setValue] = useState<any>(0)
 
   const router = useRouter()
   const queryClient = useQueryClient()
@@ -122,14 +122,14 @@ export default function Products(props: {
       })
         .then((data) => data.json())
         .then((res) => res.items),
-        {
-          onMutate: () => {
-            queryClient.invalidateQueries([CART_QUERY_KEY])
-          },
-          onSuccess: () => {
-            router.push('/cart')
-          },
-        }
+    {
+      onMutate: () => {
+        queryClient.invalidateQueries([CART_QUERY_KEY])
+      },
+      onSuccess: () => {
+        router.push('/cart')
+      },
+    }
   )
 
   const { mutate: addOrder } = useMutation<
@@ -158,18 +158,18 @@ export default function Products(props: {
   const product = props.product
 
   const validate = (type: 'cart' | 'order') => {
-    if(value == 0) {
-      alert('최소수량을 입력하세요.')  
-      return 
+    if (value == 0) {
+      alert('최소수량을 입력하세요.')
+      return
     }
-  
-    // 장바구니에 등록하는 기능 
+
+    // 장바구니에 등록하는 기능
     if (type == 'cart')
-    addCart({
-      productId: product.id,
-      quantity: value,
-      amount: product.price * value,
-    })
+      addCart({
+        productId: product.id,
+        quantity: value,
+        amount: product.price * value,
+      })
     router.push('/cart')
 
     if (type === 'order') {
@@ -193,7 +193,7 @@ export default function Products(props: {
     <>
       {product != null && productId != null ? (
         <div className="flex flex-row ">
-          <div style={{ maxWidth: 700, marginRight: 100, padding:50 }}>
+          <div style={{ maxWidth: 700, marginRight: 100, padding: 50 }}>
             <Carousel
               animation="fade"
               withoutControls
@@ -222,7 +222,7 @@ export default function Products(props: {
             {editorState != null && (
               <CustomEditor editorState={editorState} readOnly />
             )}
-             <div>
+            <div>
               <p className="text-2xl font-semibold mb-3 ">후기</p>
               {props.comments &&
                 props.comments.map((comment, idx) => (
@@ -240,19 +240,17 @@ export default function Products(props: {
             </div>
 
             <div>
-              <span className='text-lg'>수량</span>
-              <NumberInput value={value} onChange={setValue} min= {0} max={20} />
+              수량 :{' '}
+              <InputNumber
+                value={typeof value === 'number' ? value : 0}
+                onChange={(e) => setValue(parseInt(e.target.value) || 0)}
+              />
             </div>
 
-           <div className='flex space-x-3'>
-            <Button
-                leftSection={<IconShoppingCart size={20} stroke={1.5} />}
+            <div className="flex space-x-3">
+              <Button
+                className="flex items-center"
                 style={{ backgroundColor: 'black' }}
-                radius="xl"
-                size="md"
-                styles={{
-                  root: { paddingRight: 14, height: 48 },
-                }}
                 onClick={() => {
                   if (session == null) {
                     alert('로그인이 필요해요')
@@ -262,24 +260,15 @@ export default function Products(props: {
                   validate('cart')
                 }}
               >
+                <IconShoppingCart />
                 장바구니
               </Button>
+
               <Button
+                className="flex items-center"
                 // loading={isLoading}
                 disabled={wishlist == null}
-                leftSection={
-                  isWished ? (
-                    <IconHeart size={20} stroke={1.5} />
-                  ) : (
-                    <IconHeartbeat size={20} stroke={1.5} />
-                  )
-                }
                 style={{ backgroundColor: isWished ? 'red' : 'grey' }}
-                radius="xl"
-                size="md"
-                styles={{
-                  root: { paddingRight: 14, height: 48 },
-                }}
                 onClick={() => {
                   if (session == null) {
                     alert('로그인이 필요해요')
@@ -289,17 +278,12 @@ export default function Products(props: {
                   mutate(String(productId))
                 }}
               >
+                <IconHeart />
                 찜하기
               </Button>
-
-              </div>
-              <Button
+            </div>
+            <Button
               style={{ backgroundColor: 'black' }}
-              radius="xl"
-              size="md"
-              styles={{
-                root: { paddingRight: 14, height: 48 },
-              }}
               onClick={() => {
                 if (session == null) {
                   alert('로그인이 필요해요')
