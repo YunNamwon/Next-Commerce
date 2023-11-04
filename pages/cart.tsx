@@ -5,7 +5,7 @@ import { IconRefresh, IconX } from '@tabler/icons-react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { CATEGORY_MAP } from '@/constants/products'
 import Image from 'next/image'
-import { Router, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { ORDER_QUERY_KEY } from './my'
 

@@ -1,5 +1,11 @@
-import { IconHeart, IconHome, IconShoppingCart, IconUser } from '@tabler/icons-react'
-import { useSession } from 'next-auth/react'
+import {
+  IconHeart,
+  IconHome,
+  IconShoppingCart,
+  IconUser,
+  IconLogout,
+} from '@tabler/icons-react'
+import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
@@ -10,12 +16,22 @@ export default function Header() {
     <div className="mt-12 mb-12">
       <div className="w-full flex h-50 items-center">
         <IconHome onClick={() => router.push('/')} />
+        <span className="ml-2">Home</span>
+        {session ? (
+          <>
+            <IconLogout className="icon ml-4" onClick={() => signOut()} />
+            <span className="ml-2">LogOut</span>
+          </>
+        ) : null}
         <span className="m-auto" />
-        <IconHeart className="mr-4" onClick={() => router.push('/wishlist')} />
+        <IconHeart onClick={() => router.push('/wishlist')} />
+        <span className="ml-1">찜</span>
         <IconShoppingCart
-          className="mr-4"
+          className="ml-3"
           onClick={() => router.push('/cart')}
         />
+        <span className='mr-2'>장바구니</span>
+
         {session ? (
           <Image
             src={session.user?.image!}
@@ -26,8 +42,12 @@ export default function Header() {
             onClick={() => router.push('/my')}
           />
         ) : (
-          <IconUser onClick={() => router.push('/auth/login')} />
+          <IconUser
+            className="ml-1 "
+            onClick={() => router.push('/auth/login')}
+          />
         )}
+        <span>MyPage</span>
       </div>
     </div>
   )

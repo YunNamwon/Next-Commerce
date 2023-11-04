@@ -9,6 +9,7 @@ import { useQuery } from 'react-query';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { IconSearch } from '@tabler/icons-react'
+import Button from '@/components/Button';
 
 
 export default function Home() {

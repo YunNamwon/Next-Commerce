@@ -6,7 +6,7 @@ import { GetServerSidePropsContext } from 'next'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import Carousel from 'nuka-carousel'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { CATEGORY_MAP } from '@/constants/products'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { IconHeart, IconHeartbeat, IconShoppingCart } from '@tabler/icons-react'
@@ -15,6 +15,7 @@ import { useSession } from 'next-auth/react'
 import { CART_QUERY_KEY } from '@/pages/cart'
 import { ORDER_QUERY_KEY } from '@/pages/my'
 import CommentItem from '@/components/CommentItem'
+
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const product = await fetch(
