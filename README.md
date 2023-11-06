@@ -2,12 +2,9 @@
 
 
 
-**사이트 바로 가기 👉 [클릭!](https://www.easy-me.com/)**
+**사이트 바로 가기 👉 [클릭!](https://next-commerce-seven-chi.vercel.app/)**
 
 ---
-
-![cover](public/assets/readme/cover.png)
-
 Markdown 문법, 알고는 있는데.. README.md 작성할 때만 되면 버벅거리는 당신.   
 지금 'Markdown 사용법'이라고 검색하고 계신 거 아니죠? 🤭   
 이젠 더 이상 그럴 필요가 없어요. **EASYME.md를 통해 쉽게 Markdown을 작성할 수 있거든요.**   
