@@ -1,6 +1,6 @@
 import { categories, products } from '@prisma/client'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Pagination, SegmentedControl, Select, Input } from '@mantine/core'
 import '@mantine/core/styles.css';
 import { CATEGORY_MAP, FILTERS, TAKE } from '@/constants/products';
@@ -9,8 +9,6 @@ import { useQuery } from 'react-query';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { IconSearch } from '@tabler/icons-react'
-import Button from '@/components/Button';
-
 
 export default function Home() {
   const router = useRouter()

@@ -65,6 +65,7 @@
 - ES2015+
 - Next
 - Next Router
+- React Query
 - Google OAuth
 - Tabler-Icon, Mantine
 - TailWind CSS
