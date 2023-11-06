@@ -1,27 +1,16 @@
-# [NEXT를 사용한 쇼핑몰 커머스 시스템]
+# [NEXT를 사용한 쇼핑몰 커머스]
 
 
 
 **사이트 바로 가기 👉 [클릭!](https://next-commerce-seven-chi.vercel.app/)**
 ![Alt text](1-1.jpg)
 ---
-Markdown 문법, 알고는 있는데.. README.md 작성할 때만 되면 버벅거리는 당신.   
-지금 'Markdown 사용법'이라고 검색하고 계신 거 아니죠? 🤭   
-이젠 더 이상 그럴 필요가 없어요. **EASYME.md를 통해 쉽게 Markdown을 작성할 수 있거든요.**   
-왼쪽 화면에 글을 작성하면 오른쪽 화면에 실시간으로 Markdown이 적용된 글을 확인할 수 있어요. Markdown 문법이 잘 기억나지 않는다고요? 괜찮아요! 🙂 툴바창에 다양한 기능을 적용하면 자동으로 Markdown 문법이 적용되니까요.   
-어때요? 이제 쉽게 README.md를 작성할 수 있겠죠?   
-
-*(🤙 지금 이 글도 EASYME.md를 통해 작성하였답니다)*
 
 <br>
 
 # 📖 Contents
 
-- [😉 EASYME.md](#-easymemd)
-- [📖 Contents](#-contents)
 - [🌈 Background](#-background)
-- [🔗 Link](#-link)
-  - [Github Repositories](#github-repositories)
 - [🔍 Preview](#-preview)
 - [🛠 Features](#-features)
 - [📈 Release Note](#-release-note)
@@ -47,26 +36,7 @@ Markdown 문법, 알고는 있는데.. README.md 작성할 때만 되면 버벅�
 <br>
 
 # 🌈 Background
-팀 프로젝트 때, README를 작성하면서 겪었던 불편함을 해소하기 위해 시작한 프로젝트입니다. Markdown 문법은 알고 있지만 자주 쓰지 않기에 그때 그때 찾아야 하는 번거로움이 있습니다. 이와 비슷한 불편함이 다른 개발자들도 분명 있을거라 생각이 되었습니다.
-
-EASYME.md를 통해 조금이라도 개발자들이 README를 작성하는데 겪는 불편함이 해소되길 바라는 마음으로 만들게 되었습니다.
-
-<br>
-
-# 🔗 Link
-
-- [https://www.easy-me.com](https://www.easy-me.com/)
-
-## Github Repositories
-
-- Client: [https://github.com/EASYME-md/client](https://github.com/EASYME-md/client)
-- Server: [https://github.com/EASYME-md/server](https://github.com/EASYME-md/server)
-
-<br>
-
-# 🔍 Preview
-
-![title](public/assets/readme/preview.gif)
+프론트엔드개발에서 REACT의 사용도가 증가하는 추세이다. 하지만 REACT의 문제점인 CSR의 단점인 SEO와 로딩속도 등을 보완하기 위해 사용하는 NEXT의 이해와 단순한 정적인 웹사이트가 아닌 DB와 서버를 연결하여 동적인 웹사이트를 만들어보고 웹의 전체적인 동작을 이해하고 여러 CSS라이브러리, API를 이해하기 위해서 이 프로젝트를 시작하게 되었다.
 
 <br>
 
