@@ -16,7 +16,6 @@ import { ORDER_QUERY_KEY } from '@/pages/my'
 import CommentItem from '@/components/CommentItem'
 import Button from '@/components/Button'
 import InputNumber from '@/components/InputNumber'
-import Head from 'next/head'
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const product = await fetch(
@@ -194,10 +193,6 @@ export default function Products(props: {
     <>
       {product != null && productId != null ? (
         <div className="flex flex-row ">
-          <Head>
-            <title>{product.name}</title>
-            <meta name="description" content="Shoppingmall Service"></meta>
-          </Head>
           <div style={{ maxWidth: 700, marginRight: 100, padding: 50 }}>
             <Carousel
               animation="fade"
