@@ -1,7 +1,5 @@
 # [NEXT를 사용한 쇼핑몰 커머스]
 
-
-
 **사이트 바로 가기 👉 [클릭!](https://next-commerce-seven-chi.vercel.app/)**
 ![Alt text](1-1.jpg)
 ---
@@ -16,8 +14,6 @@
 - [🪃 Skills](#-skills)
   - [Client](#client-1)
   - [Server](#server-1)
-- [🪛 Project Control](#-project-control)
-- [🚀 Deployment](#-deployment)
 - [🧗 Challenges](#-challenges)
   - [1. React Quill을 선택, 그리고 그 안에서 도전](#1-react-quill을-선택-그리고-그-안에서-도전)
     - [1) 에디터에 HTML문법이 자동으로 적용되는 현상](#1-에디터에-html문법이-자동으로-적용되는-현상)
@@ -69,6 +65,7 @@
 - ES2015+
 - Next
 - Next Router
+- Google OAuth
 - Tabler-Icon, Mantine
 - TailWind CSS
 - Emotion, styled-component 
@@ -91,7 +88,7 @@
 
 # 🧗 Challenges
 
-2주 동안 기능 개발을 하면서 겪은 어려움 또는 도전은 아래와 같습니다.
+한달 동안 기능 개발을 하면서 겪은 어려움 또는 도전은 아래와 같습니다.
 
 <br>
 
