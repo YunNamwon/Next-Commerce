@@ -11,18 +11,11 @@
 # 📖 Contents
 
 - [🌈 Background](#-background)
-- [🔍 Preview](#-preview)
 - [🛠 Features](#-features)
 - [📈 Release Note](#-release-note)
-- [⚠️ Requirement](#️-requirement)
-- [⚙️ Installation](#️-installation)
-  - [Setup](#setup)
-  - [Client](#client)
-  - [Server](#server)
 - [🪃 Skills](#-skills)
   - [Client](#client-1)
   - [Server](#server-1)
-  - [Test](#test)
 - [🪛 Project Control](#-project-control)
 - [🚀 Deployment](#-deployment)
 - [🧗 Challenges](#-challenges)
@@ -41,79 +34,31 @@
 <br>
 
 # 🛠 Features
-- Screen
-    - 왼쪽 화면은 직접 텍스트를 작성할 수 있는 Editor입니다.
-    - 오른쪽 화면은 왼쪽 텍스트 작성에 따라 Markdown 문법이 적용된 Preview를 확인할 수 있습니다.
-    - 상단에 Custom Toolbar를 통해 텍스트 Style을 Markdown 문법으로 적용할 수 있습니다.
-
-- Custom Toolbar
-    - 커서 위치, 텍스트 드래그를 기준으로 Markdown 기능이 적용됩니다.
-    - 드래그한 영역을 대소문자로 변형을 해줍니다.
-    - 드래그한 영역을 리스트로 만들어줍니다.
-    - 접기, 목차, 테이블 등의 템플릿을 제공합니다.
-    - Editor 화면만 보기, Markdown 화면만 보기, Full Screen 모드를 제공합니다.
-
-- 공유하기 / 저장하기
-    - 공유하기 아이콘 버튼을 클릭하면 작성한 글이 저장되며 링크가 생성됩니다.
-    - 작성한 글을 저장하고 다른 사람에 공유할 수 있습니다.
-    - 작성 도중 단축키 `Ctrl+S(Command+S)`로 글을 저장할 수도 있습니다.
-
+- Main Page
+    - 여러 페이지로 이동할 수 있는 UI가 보이고 DB에 저장한 상품들이 보입니다.
+   
+- Header 
+    - Home: Main Page로 이동합니다
+    - LogOut: 로그인 시에만 보입니다. 로그아웃을 할 수 있습니다.
+    - 찜: 유저가 찜한 상품을 볼 수 있는 페이지입니다.
+    - 장바구니: 유저가 장바구니에 넣은 상품을 볼 수 있는 페이지입니다.
+    - MyPage: 비로그인 시 구글 계정으로 로그인 할 수 있도록 이동하고 로그인 시에는 자신이 구매할 상품들을 확인할 수 있습니다.
 <br>
 
 # 📈 Release Note
 | version | log |
 | --- | --- |
-| 0.1.0 | 툴바에 텍스트 전체 삭제 기능 추가, Tab Key 기능 추가 |
-| ~ 0.0.1 | 기능 적용시 스크롤 최상단으로 가는 현상 개선, 저장 및 공유 기능 개선 |
-
-<br>
-
-# ⚠️ Requirement
-
-최신 Chrome Browser 사용을 권장합니다.
-
-<br>
-
-# ⚙️ Installation
-
-## Setup
-
-- Local 환경에서 실행하기 위해 아래 사전 준비가 필요합니다.
-    - [MongoDB Address](https://www.mongodb.com/ko-kr/cloud/atlas/efficiency)
-    - [Google Analytics Tracking ID](https://analytics.google.com/analytics/web)
-
-## Client
-
-```
-git clone https://github.com/EASYME-md/client
-cd client
-npm install
-npm start
-```
-
-- root 디렉토리에 `.env` 파일을 생성하고 `<>`에 환경변수를 입력 후 저장해주세요.
-
-```
-REACT_APP_SERVER_URI=https://api.easy-me.com
-REACT_APP_CLIENT_URI=https://easy-me.com
-REACT_APP_TRACKING_ID=<GA Tracking ID>
-```
-
-## Server
-
-```
-git clone https://github.com/EASYME-md/server
-cd server
-npm install
-npm start
-```
-
-- root 디렉토리에 `.env` 파일을 생성하고 `<>`에 환경변수를 입력 후 저장해주세요.
-
-```
-MONGODB_ADDRESS=<mongoDB address>
-CLIENT_URI=https://easy-me.com
-```
+| 9.3 | Planet Scale Prisma 이용하여 DB 추가 및 연결 |
+| 9.4 | 상품 카테고리 분류 추가 |
+| 9.5 | 상품 검색기능 추가 |
+| 9.6 | 회원가입(Google OAuth) 기능 추가 |
+| 9.7 | 회원가입(Google OAuth) 기능 추가 |
+| 9.8 | 로그인 기능 추가(Google OAuth) |
+| 9.9 | 찜하기 버튼 추가 및 찜한 상품 확인 페이지 추가 |
+| 9.10 | 장바구니 UI 추가 |
+| 9.11 | 장바구니 기능 추가 |
+| 9.12 | 구매하기 기능 추가 |
+| 9.13 | 구매한 상품 한에서 후기 남기기 기능 추가 |
 
 <br>
 
@@ -122,40 +67,25 @@ CLIENT_URI=https://easy-me.com
 ## Client
 
 - ES2015+
-- React
-- React Router
-- React Helmet
-- Redux Toolkit
-- Redux Saga
-- Google Analytics
-- Emotion
+- Next
+- Next Router
+- Tabler-Icon, Mantine
+- TailWind CSS
+- Emotion, styled-component 
 
 ## Server
 
 - ES2015+
 - Node.js
-- Express
-- MongoDB Atlas
-- Mongoose
+- Prisma DB
 
-## Test
+## Version Control
 
-- Client: Jest, Testing Library
-- Server: Mocha, Chai, Supertest
+- Git, Github
 
-<br>
+## Deployment 
 
-# 🪛 Project Control
-
-- Version Control: Git, Github
-- Task Control: Notion, Figma
-
-<br>
-
-# 🚀 Deployment
-
-- Client: Netlify
-- Server: AWS Elastic Beanstalk
+- Vercel
 
 <br>
 
