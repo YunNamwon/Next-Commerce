@@ -106,7 +106,7 @@ Google OAuth를 통해서 받아온 사용자의 정보를 DB에 저장했지만
 
 <br>
 
-## 2. Mantine Component UI 깨지는 문제 
+## 3. Mantine Component UI 깨지는 문제 
 
 개인 프로젝트인 만큼 여러 CSS 라이브러리를 사용하였다.(Styled-component, Emotion, Tailwind, Mantine, Tabler-Icon 등)
 그 중에서도 Mantine UI를 사용했었다. 하지만 Next의 SSR(Server Side Rendering)의 특징 때문인지 아래의 이미지와 같이 첫 렌더링에서는 문제없지만 새로고침 후 재렌더링이 됐을 때 UI가 모두 깨지는 현상이 발생했다. 이 문제를 해결하기 위해 여러 방면으로 찾아봤지만 해결하지 못했다. 찾아본 결과로는 Mantine 라이브러리가 내부적으로 styled-component로 되어있는데 Next에서 styled-component가 적용이 안되는 경우가 있다고 했다. 그래서 코드나 설정을 바꿔봣지만 해결하지 못하였다.
