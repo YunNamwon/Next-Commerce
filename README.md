@@ -15,11 +15,9 @@
   - [Client](#client-1)
   - [Server](#server-1)
 - [🧗 Challenges](#-challenges)
-  - [1. React Quill을 선택, 그리고 그 안에서 도전](#1-react-quill을-선택-그리고-그-안에서-도전)
-    - [1) 에디터에 HTML문법이 자동으로 적용되는 현상](#1-에디터에-html문법이-자동으로-적용되는-현상)
-    - [2) GET 요청을 통해 데이터를 받아올 때 적용이 되지 않는 현상](#2-get-요청을-통해-데이터를-받아올-때-적용이-되지-않는-현상)
-  - [2. React Quill을 걷어내다](#2-react-quill을-걷어내다)
-  - [3. Redo, Undo가 작동하지 않다](#3-redo-undo가-작동하지-않다)
+  - [1. React Query를 선택](#1-React-Query를-선택)
+  - [2. Google OAuth와 Next-Auth 활용](#2-Google-OAuth와-Next-Auth-활용)
+  - [3. Mantine Component UI 깨지는 문제](#3-Mantine-Component-UI-깨지는-문제)
 - [🙏 마무리하며..](#-마무리하며)
 
 <br>
