@@ -95,7 +95,7 @@ export default function Home() {
   }
 
   return (
-    <div className="mt-36 mb-36">
+    <div className="mt-36 mb-36 ">
         {session && <p className='pb-4'>안녕하세요. {session.user?.name}님</p>}
       <div className="mb-4">
         <Input

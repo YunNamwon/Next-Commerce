@@ -15,8 +15,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
     
   <SessionProvider session={session}>
     <QueryClientProvider client={queryClient}>
+    <Header/>
       <div className='px-36'>
-      <Header/>
        <MantineProvider>
         <Component {...pageProps} />
       </MantineProvider>
