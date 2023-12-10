@@ -18,7 +18,7 @@
   - [1. React Query를 선택](#1-React-Query를-선택)
   - [2. Google OAuth와 Next-Auth 활용](#2-Google-OAuth와-Next-Auth-활용)
   - [3. Mantine Component UI 깨지는 문제](#3-Mantine-Component-UI-깨지는-문제)
-- [🙏 마무리하며...](#-마무리하며)
+- [🙏 마무리하며..](#-마무리하며)
 
 <br>
 
